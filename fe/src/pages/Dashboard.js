@@ -16,7 +16,6 @@ const Dashboard = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [filter, setFilter] = useState('');
     const [sortedUsers, setSortedUsers] = useState([]);
-    const [editUserId, setEditUserId] = useState(null);
     const [showAddUserModal, setShowAddUserModal] = useState(false);
     const [newUser, setNewUser] = useState({
         name: '',
@@ -112,7 +111,7 @@ const Dashboard = () => {
     };
 
     const handleEditUser = (userId) => {
-        setEditUserId(userId);
+      
         setUsers((prevUsers) =>
             prevUsers.map((user) =>
                 user._id === userId ? { ...user, isEditing: !user.isEditing } : { ...user, isEditing: false }
@@ -120,37 +119,67 @@ const Dashboard = () => {
         );
     };
 
-    const handleSaveEdit = async (editedUser) => {
+    const handleSaveEdit = async (user) => {
         try {
+            
             // Perform the update operation on the server
-            await axios.put(`${API_BASE_URL}/update/${editedUser._id}`, editedUser);
-
+            await axios.put(`${API_BASE_URL}/update/${user._id}`, user);
+    
             // Update the local state to reflect the change
             setUsers((prevUsers) =>
-                prevUsers.map((user) =>
-                    user._id === editedUser._id ? { ...editedUser, isEditing: false, updatedAt: new Date() } : user
+                prevUsers.map((prevUser) =>
+                    prevUser._id === user._id
+                        ? { ...prevUser, isEditing: false, updatedAt: new Date() }
+                        : prevUser
                 )
             );
 
-            setEditUserId(null);
-            toast("User updated successfully")
+            toast("User updated successfully");
             console.log('User updated successfully!');
         } catch (error) {
             console.error('Error updating user:', error);
         }
     };
+    
 
     const handleAddUser = async () => {
         try {
-            await axios.post(`${API_BASE_URL}/signup`, newUser);
-            setShowAddUserModal() // Set the state to close the modal
+            // Make sure newUser is not empty before making the request
+            if (!newUser.name || !newUser.email || !newUser.phone) {
+                // Handle the case where some fields are empty
+                console.error('Please fill in all the required fields.');
+                toast('Please fill in all the required fields.')
+                handleShowAddUserModal();
+
+
+                return;
+            }
+    
+            // Assuming newUser is an object containing user data (name, email, phone)
+            const response = await axios.post(`${API_BASE_URL}/signup`, newUser);
+
+            console.log('Response message:', response.data.message);
+
+    
+         
+    
+            // Reset the newUser state to clear the form fields
             setNewUser({ name: '', email: '', phone: '' });
-            console.log('User added successfully!');
+    
+            // Display a success message
+            toast(response.data.message);
+    
+            // Reload the list of users
             loadUsers();
         } catch (error) {
+            // Handle errors, display an error message, or log the error
             console.error('Error adding user:', error);
+    
+            // Optionally, display an error toast message
+            toast('Error adding user.');
         }
     };
+    
 
 
     const handleShowAddUserModal = () => {
@@ -391,7 +420,7 @@ const Dashboard = () => {
                                 className="btn btn-primary"
                                 data-bs-dismiss="modal"
                                 onClick={() => {
-                                    handleCloseAddUserModal();
+                                    // handleCloseAddUserModal();
                                     handleAddUser();
                                 }}
                             >

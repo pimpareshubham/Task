@@ -15,7 +15,7 @@ import Details from './pages/Details';
 
 
 
-import { ToastContainer} from 'react-toastify';
+import { ToastContainer,toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import 'react-multi-carousel/lib/styles.css';
 
@@ -74,10 +74,10 @@ function App() {
   return (
     <div className='app-bg'>
       <Router>
-      <ToastContainer autoClose={800}/>
-        <Nav></Nav>
+        <ToastContainer position="top-center" autoClose={800} />
+        <Nav />
         <DynamicRouting />
-        {/* <Footer></Footer> */}
+        {/* <Footer /> */}
       </Router>
     </div>
   );

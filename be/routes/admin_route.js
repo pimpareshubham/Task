@@ -40,7 +40,7 @@ router.post('/signup', async (req, res) => {
             return res.status(201).json({ message: "User registration successful" });
         } else {
             console.log("Server error");
-            return res.status(500).json({ error: "Server error" });
+            return res.status(500).json({ message: "Server error" });
         }
     } catch (error) {
         console.error(error);
@@ -187,10 +187,10 @@ router.put('/update/:userId', async (req, res) => {
             return res.status(400).json({ message: "Invalid user ID" });
         }
 
-        // Check for mandatory fields
-        if (!name || !email || !phone || !city || !state) {
-            return res.status(400).json({ message: "One or more mandatory fields are empty" });
-        }
+        // // Check for mandatory fields
+        // if (!name || !email || !phone || !city || !state) {
+        //     return res.status(400).json({ message: "One or more mandatory fields are empty" });
+        // }
 
         // Find the user by ID
         const existingUser = await AdminModel.findById(userId);

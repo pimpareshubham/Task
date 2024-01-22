@@ -38,8 +38,8 @@ const Nav = () => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link to='/' className="nav-link nav-item-color " aria-current="page">
-                  Home
+                <Link to='/dashboard' className="nav-link nav-item-color " aria-current="page">
+                  Dashboard
                 </Link>
               </li>
               {!user ? (
