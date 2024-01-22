@@ -47,52 +47,6 @@ router.post('/signup', async (req, res) => {
         return res.status(500).json({ message: "An error occurred" });
     }
 });
-// router.post('/signup', async (req, res) => {
-//     try {
-//         const { name, email, password, phone, city, state, gender, sources } = req.body;
-
-//         if (!name || !email || !password || !phone || !city || !state) {
-//             return res.status(400).json({ message: "One or more mandatory fields are empty" });
-//         }
-
-//         const existingUser = await AdminModel.findOne({ email });
-//         if (existingUser) {
-//             return res.status(400).json({ message: "Email already registered" });
-//         }
-
-//         const hashedPassword = await bcrypt.hash(password, 12); // Adjust the salt rounds as needed
-
-//         const newUser = new AdminModel({
-//             name,
-//             email,
-//             password: hashedPassword,
-//             phone,
-//             city,
-//             state,
-//             gender,
-//             sources,
-//             updatedAt: new Date()  // Add this line to set the initial updatedAt timestamp
-//         });
-
-//         const savedUser = await newUser.save();
-//         if (savedUser) {
-//             console.log("User saved");
-//             return res.status(201).json({ message: "User registration successful" });
-//         } else {
-//             console.log("Server error");
-//             return res.status(500).json({ error: "Server error" });
-//         }
-//     } catch (error) {
-//         console.error(error);
-//         return res.status(500).json({ message: "An error occurred" });
-//     }
-// });
-
-
-
-
-
-
 
 
 router.post('/login', async (req, res) => {
